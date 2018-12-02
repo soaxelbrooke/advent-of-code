@@ -13,7 +13,7 @@ with id_letters as (
   from id_letter_counts
   group by id
 )
-select count(*) filter (where has_double) * count(*) filter (where has_triple) as checksum
+select count(*) filter (where has_double) * count(*) filter (where has_triple) as part_1_answer
 from id_stats;
 
 
@@ -46,4 +46,4 @@ mismatched_ids as (
     regexp_split_to_table(right_id, '') as right_letter
   from letter_distances
 )
-select string_agg(left_letter, '') as answer from mismatched_ids where left_letter = right_letter;
+select string_agg(left_letter, '') as part_2_answer from mismatched_ids where left_letter = right_letter;
