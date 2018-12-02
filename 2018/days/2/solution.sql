@@ -1,6 +1,5 @@
 
-select count(*) from input;
-
+create view part_1_solution as
 with id_letters as (
   select id, regexp_split_to_table(id, '') letter from input
 ), id_letter_counts as (
@@ -13,11 +12,11 @@ with id_letters as (
   from id_letter_counts
   group by id
 )
-select count(*) filter (where has_double) * count(*) filter (where has_triple) as part_1_answer
+select 1 as part, cast(count(*) filter (where has_double) * count(*) filter (where has_triple) as text) as answer
 from id_stats;
 
 
-
+create view part_2_solution as
 with id_letters as (
   select
     (row_number() over ()) - idx_offset as idx,
@@ -46,4 +45,8 @@ mismatched_ids as (
     regexp_split_to_table(right_id, '') as right_letter
   from letter_distances
 )
-select string_agg(left_letter, '') as part_2_answer from mismatched_ids where left_letter = right_letter;
+select 2 as part, string_agg(left_letter, '') as answer from mismatched_ids where left_letter = right_letter;
+
+select * from part_1_solution
+union all
+select* from part_2_solution;
