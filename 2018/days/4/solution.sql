@@ -38,9 +38,8 @@ select
   case
     when label = 'wakes up'
       then int4range(
-        extract(epoch from age(lag(dt) over (partition by session_id order by dt), date_trunc('day', dt)))::integer / 60 - 1,
-        extract(epoch from age(dt, date_trunc('day', dt)))::integer / 60 - 1,
-        '(]'
+        extract(epoch from age(lag(dt) over (partition by session_id order by dt), date_trunc('day', dt)))::integer / 60,
+        extract(epoch from age(dt, date_trunc('day', dt)))::integer / 60
       )
     else null
   end as sleep_range,
